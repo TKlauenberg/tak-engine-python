@@ -1,2 +1,0 @@
-class Square(object):
-    pass
