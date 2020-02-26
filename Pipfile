@@ -6,6 +6,8 @@ verify_ssl = true
 [dev-packages]
 pylint = "*"
 behave = "*"
+autopep8 = "*"
+pyhamcrest = "*"
 
 [requires]
 python_version = "3.8"

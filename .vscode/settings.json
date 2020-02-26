@@ -1,7 +1,13 @@
 {
-    "cucumberautocomplete.syncfeatures": "features/**/*.feature",
+    "cucumberautocomplete.syncfeatures": "./features/**/*.feature",
     "cucumberautocomplete.steps": [
-        "features/steps/**/*.py"
+        "./features/steps/**/*.py"
     ],
-    "python.pythonPath": ".venv\\Scripts\\python.exe"
+    "python.linting.ignorePatterns": [
+        "features/steps/*.py",
+        "features/*.py"
+    ],
+    "python.pythonPath": ".venv\\Scripts\\python.exe",
+    "cucumberautocomplete.gherkinDefinitionPart": "@(given|when|then|step)\\(u",
+    "python.linting.pylintEnabled": true
 }
