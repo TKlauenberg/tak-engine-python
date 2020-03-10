@@ -23,7 +23,9 @@
             "cwd": "${workspaceFolder}",
             "args": [
                 "-f",
-                "formatter.snippetsformatter:SnippetsFormatter"
+                "formatter.snippetsformatter:SnippetsFormatter",
+                "-t",
+                "debug"
             ]
         },
     ]

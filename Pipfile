@@ -8,6 +8,7 @@ pylint = "*"
 behave = "*"
 autopep8 = "*"
 pyhamcrest = "*"
+rope = "*"
 
 [requires]
 python_version = "3.8"

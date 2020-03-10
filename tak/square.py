@@ -1,4 +1,5 @@
 from enum import Enum
+
 from tak.stone import StoneType
 
 
@@ -75,3 +76,6 @@ class Square:
             takeStones = self.stones[-count]
             self.stones = self.stones[: - count]
             return takeStones
+
+    def __eq__(self, value):
+        return (not value == None) and len(self.stones) == len(value.stones)and all([a == b for (a, b) in zip(self.stones, value.stones)])

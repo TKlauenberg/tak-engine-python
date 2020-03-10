@@ -1,8 +1,8 @@
-from behave import given, when, then  # pylint: disable=no-name-in-module
+from behave import given, then, when  # pylint: disable=no-name-in-module
 from hamcrest import *
+
 from tak.square import Square
-from tak.stone import StoneType
-from tak.player import Player
+from tak.stone import Stone, StoneType, PlayerNumber
 
 
 @given(u'an empty square')
@@ -12,14 +12,12 @@ def step_impl(context):
 
 @when(u'the developer drops a white stone')
 def step_impl(context):
-    stone = {'type': StoneType.FLAT, 'player': Player.One}
+    stone = Stone(type=StoneType.FLAT, player=PlayerNumber.One)
     context.square.drop(stone)
-    stone2 = {'type': StoneType.FLAT, 'player': Player.One}
-    context.square.drop(stone2)
 
 
 @then(u'the square should have a white stone')
 def step_impl(context):
     stones = context.square.stones
-    stone = {'type': StoneType.FLAT, 'player': Player.One}
+    stone = Stone(type=StoneType.FLAT, player=PlayerNumber.One)
     assert_that(stones, only_contains(stone))
