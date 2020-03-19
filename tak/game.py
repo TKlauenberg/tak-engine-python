@@ -8,7 +8,7 @@ class Game:
     def __init__(self, size, player1Name: str = None, player2Name: str = None):
         stonebag = get_stone_count(size=size)
         if stonebag is None:
-            raise f"Bord Size is not valid! Bord size is {size}"
+            raise Exception(f"Bord Size is not valid! Bord size is {size}")
         self.size = size
         player1Name = player1Name or "white"
         self.player1 = PlayerInfo(player1Name, PlayerNumber.One, stonebag)
@@ -24,7 +24,7 @@ class Game:
         player = self.currentPlayer
         if (self.moveCount == 1):
             player = self.player2 if self.currentPlayer == self.player1 else self.player1
-        newBoard = move.execute(self.board, player)
+        move.execute(self.board, player)
         if (not self.hasEnded):
             if (self.currentPlayer == self.player1):
                 self.currentPlayer = self.player2

@@ -14,10 +14,10 @@ Feature: Move handling
         Then On b2 is a flat black stone
 
     Scenario: both player one move
-        When the user places a flat stone at b2
-        And the user places a flat stone at a1
-        Then On b2 is a flat black stone
-        Then On a1 is a flat white stone
+        When the user places a flat stone at a1
+        And the user places a flat stone at e5
+        Then On a1 is a flat black stone
+        Then On e5 is a flat white stone
 
     Scenario: completed second round
         When the user places a flat stone at b2
