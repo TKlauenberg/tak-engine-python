@@ -5,15 +5,18 @@ from .stone import PlayerNumber
 
 
 class Game:
-    def __init__(self, size, player1Name: str = None, player2Name: str = None):
+    def __init__(self, size, player1: str = None, player2: str = None, tps: str = None):
+        if isinstance(size, str):
+            size = int(size)
         stonebag = get_stone_count(size=size)
         if stonebag is None:
             raise Exception(f"Bord Size is not valid! Bord size is {size}")
         self.size = size
-        player1Name = player1Name or "white"
-        self.player1 = PlayerInfo(player1Name, PlayerNumber.One, stonebag)
-        player2Name = player2Name or "black"
-        self.player2 = PlayerInfo(player2Name, PlayerNumber.Two, stonebag)
+        pplayer1layer1Name = player1 or "white"
+        self.player1 = PlayerInfo(
+            pplayer1layer1Name, PlayerNumber.One, stonebag)
+        pplayer2layer2Name = player2 or "black"
+        self.player2 = PlayerInfo(player2, PlayerNumber.Two, stonebag)
         self.moveCount = 1
         self.hasEnded = False
         self.board = Board(size)
