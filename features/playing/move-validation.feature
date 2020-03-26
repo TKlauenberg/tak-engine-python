@@ -11,7 +11,6 @@ Feature: Move Validation
         And the user places a flat stone at a1
         And the user places a flat stone at a2
 
-    @debug
     Scenario: Move out of board
         When the user tries to move one stone from a2 left
         Then the user should get an error

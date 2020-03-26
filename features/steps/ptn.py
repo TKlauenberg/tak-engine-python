@@ -18,4 +18,4 @@ def the_parsing_should_be_successful(context):
 
 @then(u'The parsing should be unsuccessful')
 def the_parsing_should_be_successful(context):
-    assert context.error == False
+    assert context.parsingResult == False
