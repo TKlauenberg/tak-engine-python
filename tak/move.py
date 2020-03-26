@@ -64,7 +64,7 @@ class Move:
 
     @staticmethod
     def parse(ptnMove: str):
-        moveType = grammar['plyGrouped']
+        moveType = grammar['plyGrouped'].match(ptnMove)
         # MoveType = Move
         if moveType[2]:
             action = MoveType.Move

@@ -2,7 +2,12 @@ from tak.grammar import grammar, requiredTags
 from tak.tag import Tag
 from tak.game import Game
 from tak.move import Move
+import re
 
+_getLineNumber = re.compile(r'(\d+)\.')
+
+def _transformLineNumber(lineNumber: str):
+    return int(_getLineNumber.match(lineNumber.strip())[1])
 
 def parse(text: str):
     file = grammar['ptnGrouped'].match(text)
@@ -35,7 +40,7 @@ def parse(text: str):
         moves = []
         # if we have a tps string, it could be that we have only one move in the first line
         if moveLines[1] != '' and moveLines[5] == '':
-            currentLine = int(moveLines[1].strip())
+            currentLine = _transformLineNumber(moveLines[1])
             if currentLine != line:
                 return (False, f'Expected Line {line} but found {currentLine}')
             (moveParseSuccess, moveOrError) = Move.parse(moveLines[3].strip())
@@ -44,7 +49,7 @@ def parse(text: str):
             moves.append(moveOrError)
             moveLines = grammar['moveGrouped'].match(moveLines[10]) if moveLines[10] else None
         while moveLines!= None:
-            currentLine = int(moveLines[1].strip())
+            currentLine = _transformLineNumber(moveLines[1])
             if currentLine != line:
                 return (False, f'Expected Line {line} but found {currentLine}')
             (firstMoveParseSuccess, firstMove) = Move.parse(moveLines[3].strip())
