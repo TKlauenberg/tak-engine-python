@@ -1,7 +1,7 @@
-from tak.grammar import grammar, requiredTags
-from tak.tag import Tag
-from tak.game import Game
-from tak.move import Move
+from .grammar import grammar, requiredTags
+from .tag import Tag
+from .game import Game
+from .move import Move
 import re
 
 _getLineNumber = re.compile(r'(\d+)\.')

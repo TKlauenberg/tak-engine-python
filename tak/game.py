@@ -17,10 +17,12 @@ class Game:
             pplayer1layer1Name, PlayerNumber.One, stonebag)
         pplayer2layer2Name = player2 or "black"
         self.player2 = PlayerInfo(player2, PlayerNumber.Two, stonebag)
-        self.moveCount = 1
-        self.hasEnded = False
-        self.board = Board(size)
-        self.currentPlayer = self.player1
+        if tps!=None:
+            pass
+        else:
+            self.moveCount = 1
+            self.board = Board(size)
+            self.currentPlayer = self.player1
 
     def execute(self, move: Move):
         # first action is always a place of an enemy stone
@@ -28,10 +30,9 @@ class Game:
         if (self.moveCount == 1):
             player = self.player2 if self.currentPlayer == self.player1 else self.player1
         move.execute(self.board, player)
-        if (not self.hasEnded):
-            if (self.currentPlayer == self.player1):
-                self.currentPlayer = self.player2
-            else:
-                self.currentPlayer = self.player1
-                self.moveCount += 1
+        if (self.currentPlayer == self.player1):
+            self.currentPlayer = self.player2
+        else:
+            self.currentPlayer = self.player1
+            self.moveCount += 1
         return self

@@ -17,8 +17,11 @@ def get_stone_count(size: int):
 class Board:
     def __init__(self, size: int, board=None):
         self.size = size
-        self.board = list([[Square(position=self.position_to_string(y, x)) for x in range(size)]
-                           for y in range(size)])
+        if board != None:
+            self.board = board
+        else:
+            self.board = list([[Square(position=self.position_to_string(y, x)) for x in range(size)]
+                               for y in range(size)])
 
     def get_position(self, position: str):
         (a, b) = position

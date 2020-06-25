@@ -11,9 +11,9 @@ class Edge(Enum):
 
 
 class Square:
-    stones = []
-    def __init__(self, position:str=None):
+    def __init__(self, position:str=None, *stones):
         self.position = position
+        self.stones = stones
 
     def top(self):
         return self.stones[-1]

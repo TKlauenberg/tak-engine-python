@@ -87,3 +87,36 @@ def the_user_should_get_an_error(context):
 @then(u'The error message should be "{text}"')
 def the_error_message_should_be_message(context, text):
     assert str(context.error) == text
+
+
+@then(u'On {position:Position} should be a stack with stones "{text}"')
+def on_pos_should_be_a_stack_with_stones(context, position, text):
+    game: Game = context.game
+    square = game.board.get_square(position=position)
+    squareStack = ''.join([str(stone.player.value) for stone in square.stones])
+    assert text == squareStack, f'expected {text} but was {squareStack}'
+
+
+@then(u'the top stone on {position:Position} should be {player:PlayerColor}')
+def the_top_stone_on_pos_should_be_color(context, position, player):
+    game: Game = context.game
+    square = game.board.get_square(position=position)
+    assert square.top().player == player
+
+
+@then(u'the top stone on {position:Position} should be of type {stoneType:StoneTypeByChar}')
+def the_top_stone_on_pos_should_be_of_type_stonetype(context, position, stoneType):
+    game: Game = context.game
+    square = game.board.get_square(position=position)
+    assert square.top().type == stoneType
+
+
+@then(u'the current Round should be {count:d}')
+def the_current_round_should_be_10(context, count):
+    game: Game = context.game
+    assert game.moveCount == count
+
+@then(u'the next Player should be {player:Player}')
+def the_next_player_should_be_player_2(context, player):
+    game: Game = context.game
+    assert game.currentPlayer.player == player
