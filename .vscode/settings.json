@@ -7,7 +7,6 @@
         "features/steps/*.py",
         "features/*.py"
     ],
-    "python.pythonPath": ".venv\\Scripts\\python.exe",
     "cucumberautocomplete.gherkinDefinitionPart": "@(given|when|then|step)\\(u",
     "python.linting.pylintEnabled": true
 }

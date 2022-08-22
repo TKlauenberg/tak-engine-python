@@ -10,7 +10,7 @@ STEP_MODULE_TEMPLATE = '''\
 Missing step implementations (proof-of-concept).
 """
 
-from behave import given, when, then, step 
+from behave import given, when, then, step
 
 {step_snippets}
 '''
@@ -36,7 +36,7 @@ def make_undefined_step_snippet(step, language=None):
 
     schema = u"@%s(%s'%s')\ndef %s(context):\n"
     schema += u"    raise NotImplementedError(%s'STEP: %s %s')\n\n"
-    snippet = schema % (step.step_type, prefix, step.name, step.name.replace(" ", "_"),
+    snippet = schema % (step.step_type, prefix, step.name, step.name.replace(" ", "_").lower(),
                         prefix, step.step_type.title(), step.name)
     return snippet
 

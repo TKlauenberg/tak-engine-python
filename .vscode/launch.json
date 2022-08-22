@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
             "name": "Python: Behave current file",
             "type": "python",
             "request": "launch",
@@ -12,6 +19,20 @@
             "console": "integratedTerminal",
             "args": [
                 "${file}"
+            ]
+        },
+        {
+            "name": "Python: Behave @debug",
+            "type": "python",
+            "request": "launch",
+            "module": "behave",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "-f",
+                "formatter.snippetsformatter:SnippetsFormatter",
+                "-t",
+                "debug"
             ]
         },
         {
@@ -23,7 +44,7 @@
             "cwd": "${workspaceFolder}",
             "args": [
                 "-f",
-                "formatter.snippetsformatter:SnippetsFormatter"
+                "formatter.snippetsformatter:SnippetsFormatter",
             ]
         },
     ]
