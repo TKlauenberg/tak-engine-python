@@ -12,8 +12,8 @@ def convert_options(value):
         return value
 
 
-@step(u'the user initializes a game with the parameters')
-def the_user_initialize_a_game_with_the_parameters(context):
+@step(u'{actor:w} initializes a game with the parameters')
+def the_user_initialize_a_game_with_the_parameters(context, actor):
     options = dict()
     table: Table = context.table
     for heading in table[0].headings:

@@ -4,15 +4,15 @@ from features.steps.checks import check_stack, check_stone
 from tak import Direction, Game, Move, MoveType, Square
 
 
-@step(u'the user places a {stonetype:StoneTypeByName} at {position:Position}')
-def i_place_a_stone_at_position(context, stonetype, position):
+@step(u'{actor:w} places a {stonetype:StoneTypeByName} at {position:Position}')
+def i_place_a_stone_at_position(context, actor, stonetype, position):
     move = Move(action=MoveType.Place, position=position, stoneType=stonetype)
     game: Game = context.game
     game.execute(move)
 
 
-@when(u'the user tries to place a {stonetype:StoneTypeByName} at {position:Position}')
-def the_user_tries_to_place_a_stone_at_position(context, stonetype, position):
+@when(u'{actor:w} tries to place a {stonetype:StoneTypeByName} at {position:Position}')
+def the_user_tries_to_place_a_stone_at_position(context, actor, stonetype, position):
     move = Move(action=MoveType.Place, position=position, stoneType=stonetype)
     try:
         context.game.execute(move)
@@ -20,15 +20,15 @@ def the_user_tries_to_place_a_stone_at_position(context, stonetype, position):
         context.error = e
 
 
-@step(u'the user moves one stone from {position:Position} {direction:Direction}')
-def the_user_moves_one_stone_from_c3_up(context, position, direction):
+@step(u'{actor:w} moves one stone from {position:Position} {direction:Direction}')
+def the_user_moves_one_stone_from_c3_up(context, actor, position, direction):
     move = Move(action=MoveType.Move, amount=1,
                 direction=direction, drops=[1], position=position)
     context.game.execute(move)
 
 
-@when(u'the user tries to move one stone from {position:Position} {direction:Direction}')
-def the_user_tries_to_move_one_stone_position_direction(context, position, direction):
+@when(u'{actor:w} tries to move one stone from {position:Position} {direction:Direction}')
+def the_user_tries_to_move_one_stone_position_direction(context, actor,  position, direction):
     move = Move(action=MoveType.Move, amount=1,
                 direction=direction, drops=[1], position=position)
     try:
@@ -37,16 +37,16 @@ def the_user_tries_to_move_one_stone_position_direction(context, position, direc
         context.error = e
 
 
-@when(u'the user moves {amount:d} stones from {position:Position} {direction:Direction}, dropping one stone at each square')
-def the_user_moves_stones_from_position_direction(context, amount: int, position: str, direction: Direction):
+@when(u'{actor:w} moves {amount:d} stones from {position:Position} {direction:Direction}, dropping one stone at each square')
+def the_user_moves_stones_from_position_direction(context, actor, amount: int, position: str, direction: Direction):
     drops = list([1 for i in range(amount)])
     move = Move(action=MoveType.Move, amount=amount,
                 direction=direction, drops=drops, position=position)
     context.game.execute(move)
 
 
-@when(u'the user tries to move {amount:d} stones from {position:Position} {direction:Direction}, dropping one stone at each square')
-def the_user_tries_to_move_stones_from_position_direction(context, amount: int, position: str, direction: Direction):
+@when(u'{actor:w} tries to move {amount:d} stones from {position:Position} {direction:Direction}, dropping one stone at each square')
+def the_user_tries_to_move_stones_from_position_direction(context, actor, amount: int, position: str, direction: Direction):
     drops = list([1 for i in range(amount)])
     move = Move(action=MoveType.Move, amount=amount,
                 direction=direction, drops=drops, position=position)
@@ -56,8 +56,8 @@ def the_user_tries_to_move_stones_from_position_direction(context, amount: int, 
         context.error = e
 
 
-@when(u'the user tries to move {amount:d} stones from {position:Position} {direction:Direction} with all stones')
-def the_user_tries_to_move_stones_from_position_direction_with_all_stones(context, amount, position, direction):
+@when(u'{actor:w} tries to move {amount:d} stones from {position:Position} {direction:Direction} with all stones')
+def the_user_tries_to_move_stones_from_position_direction_with_all_stones(context, actor, amount, position, direction):
     move = Move(action=MoveType.Move, amount=amount,
                 direction=direction, drops=[amount], position=position)
     try:
@@ -79,8 +79,8 @@ def on_positioon_should_be_a_stack_with_stones(context, position, stone, stone2)
     check_stack(context.game, position, stone, stone2)
 
 
-@then(u'the user should get an error')
-def the_user_should_get_an_error(context):
+@then(u'{actor:w} should get an error')
+def the_user_should_get_an_error(context, actor):
     assert context.error != None, 'user should get an error'
 
 
@@ -115,6 +115,7 @@ def the_top_stone_on_pos_should_be_of_type_stonetype(context, position, stoneTyp
 def the_current_round_should_be_10(context, count):
     game: Game = context.game
     assert game.moveCount == count
+
 
 @then(u'the next Player should be {player:Player}')
 def the_next_player_should_be_player_2(context, player):

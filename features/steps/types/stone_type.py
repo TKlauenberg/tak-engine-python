@@ -8,8 +8,11 @@ from tak.stone import StoneType, parse_stone_type
 
 @parse.with_pattern(r"[FSC]")
 def parse_stone_by_char(text):
-    stoneType = parse_stone_type(text)
-    return stoneType
+    (parseResult, stoneType) = parse_stone_type(text)
+    if parseResult:
+        return stoneType
+    else:
+        raise Exception('could not parse stonetype')
 
 
 register_type(StoneTypeByChar=parse_stone_by_char)

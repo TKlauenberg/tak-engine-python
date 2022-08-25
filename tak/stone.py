@@ -18,7 +18,10 @@ def parse_stone_type(stoneType):
         "S": StoneType.STANDING,
         "C": StoneType.CAP,
     }
-    return switcher.get(stoneType, f"Cannot parse Stone {stoneType}. Possible StoneTypes are \"F, S and C\"")
+    if stoneType in switcher.keys():
+        return (True, switcher.get(stoneType))
+    else:
+        return (False, f'Cannot parse Stone {stoneType}. Possible StoneTypes are "F, S and C"')
 
 
 class Stone:

@@ -35,11 +35,11 @@ class Move:
         self.drops = drops
 
     def execute(self, board: Board, player: PlayerInfo):
-        if (self.action == MoveType.Place):
+        if self.action == MoveType.Place:
             stone = player.get_stone(self.stoneType)
-            if (isinstance(stone, Stone)):
+            if isinstance(stone, Stone):
                 square = board.get_square(self.position)
-                if (len(square.stones) > 0):
+                if len(square.stones) > 0:
                     raise Exception(
                         "Cannot place a stone on a non empty board")
                 else:
@@ -48,16 +48,19 @@ class Move:
                 raise Exception("Player has not enough stones")
         else:
             square: Square = board.get_square(self.position)
+            if not square.top().player is player.player:
+                raise Exception("Player doesn't control that square")
             stones = square.take(self.amount)
             for index, drop in enumerate(self.drops):
                 dropSquare: Square = board.get_neighbour_square(
                     position=self.position, direction=self.direction, length=index + 1)
-                if dropSquare == None:
+                if dropSquare is None:
                     raise Exception("Cannot move out of the board")
-                # no check needed for undefined because otherwithe the square.take method throws an error
+                # no check needed for undefined because
+                # otherwithe the square.take method throws an error
                 dropStones = stones[:drop]
                 stones = stones[drop:]
-                if (dropSquare.can_drop_stones(*dropStones)):
+                if dropSquare.can_drop_stones(*dropStones):
                     dropSquare.drop(*dropStones)
                 else:
                     raise Exception(f"Cannot drop stones on {self.position}")
@@ -72,7 +75,7 @@ class Move:
             amount = 1 if parts[1] == '' else int(parts[1])
             position = parts[2]
             direction = parse_direction(parts[2])
-            drops = [amount] if parts[4] == '' else[int(x) for x in parts[4]]
+            drops = [amount] if parts[4] == '' else [int(x) for x in parts[4]]
             move = Move(action=action, position=position,
                         direction=direction, drops=drops)
             return (True, move)
@@ -85,4 +88,3 @@ class Move:
             move = Move(action=action, position=position, stoneType=stoneType)
             return (True, move)
         return (False, f'move could not be parsed! move: {ptnMove}')
-

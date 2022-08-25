@@ -6,8 +6,10 @@ import re
 
 _getLineNumber = re.compile(r'(\d+)\.')
 
+
 def _transformLineNumber(lineNumber: str):
     return int(_getLineNumber.match(lineNumber.strip())[1])
+
 
 def parse(text: str):
     file = grammar['ptnGrouped'].match(text)
@@ -22,14 +24,16 @@ def parse(text: str):
         parseErrors = [error for (result, error) in parsedTags if not result]
         return (False, parseErrors[0])
     tags = [tag for (result, tag) in parsedTags]
-    missingTags = [tagName for tagName in requiredTags if all([tagName != tag.get_key() for tag in tags])]
+    missingTags = [tagName for tagName in requiredTags if all(
+        [tagName != tag.get_key() for tag in tags])]
     if len(missingTags) > 0:
         return (False, f"Some Tags are missing: {missingTags}")
     if len(set([tag.get_key() for tag in tags])) != len(tags):
         return (False, "duplicate tag entries")
     tagMap = dict([(tag.get_key(), tag) for tag in tags])
     gameOptionTags = ['size', 'player1', 'player2', 'tps']
-    gameOptions = dict([(tag, tagMap.get(tag).value) for tag in gameOptionTags if tagMap.get(tag) != None])
+    gameOptions = dict([(tag, tagMap.get(tag).value)
+                       for tag in gameOptionTags if tagMap.get(tag) != None])
     try:
         game = Game(**gameOptions)
     except Exception as ex:
@@ -47,16 +51,19 @@ def parse(text: str):
             if not moveParseSuccess:
                 return (False, moveOrError)
             moves.append(moveOrError)
-            moveLines = grammar['moveGrouped'].match(moveLines[10]) if moveLines[10] else None
-        while moveLines!= None:
+            moveLines = grammar['moveGrouped'].match(
+                moveLines[10]) if moveLines[10] else None
+        while moveLines != None:
             currentLine = _transformLineNumber(moveLines[1])
             if currentLine != line:
                 return (False, f'Expected Line {line} but found {currentLine}')
-            (firstMoveParseSuccess, firstMove) = Move.parse(moveLines[3].strip())
+            (firstMoveParseSuccess, firstMove) = Move.parse(
+                moveLines[3].strip())
             if not firstMoveParseSuccess:
                 return (False, firstMove)
             moves.append(firstMove)
-            (seccondMoveParseSuccess, seccondMove) = Move.parse(moveLines[5].strip())
+            (seccondMoveParseSuccess, seccondMove) = Move.parse(
+                moveLines[5].strip())
             if not seccondMoveParseSuccess:
                 return (False, seccondMove)
             moves.append(seccondMove)

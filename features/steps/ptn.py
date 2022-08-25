@@ -3,8 +3,8 @@ from behave import given, step, then, when
 from tak import parse
 
 
-@when(u'I parse the PTN file')
-def i_parse_the_ptn_file(context):
+@when(u'{actor:w} parse the PTN file')
+def i_parse_the_ptn_file(context, actor):
     (result, gamrOrError) = parse(context.text)
     context.parsingResult = result
     context.game = gamrOrError
