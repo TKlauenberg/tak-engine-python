@@ -1,27 +1,24 @@
-from enum import Enum
-
-from tak.stone import StoneType
 
 
-class Edge(Enum):
-    Top = 1
-    Bottom = 2
-    Left = 4
-    Right = 8
+from tak.stone import Stone, StoneType
 
 
 class Square:
-    def __init__(self, position:str=None, *stones):
+    def __init__(self, position: str = None, *stones):
         self.position = position
         self.stones = stones
+        self.edges = None
 
-    def top(self):
-        return self.stones[-1]
+    def top(self) -> Stone:
+        if len(self.stones) > 0:
+            return self.stones[-1]
+        else:
+            return None
 
-    def is_empty(self):
+    def is_empty(self) -> bool:
         return len(self.stones) == 0
 
-    def has_stones(self):
+    def has_stones(self) -> bool:
         return len(self.stones) > 0
 
     def can_drop_stones(self, *stones):
@@ -81,4 +78,4 @@ class Square:
             return takeStones
 
     def __eq__(self, value):
-        return (not value == None) and len(self.stones) == len(value.stones)and all([a == b for (a, b) in zip(self.stones, value.stones)])
+        return (not value == None) and len(self.stones) == len(value.stones) and all([a == b for (a, b) in zip(self.stones, value.stones)])
