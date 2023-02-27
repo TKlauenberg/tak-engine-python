@@ -8,6 +8,7 @@ class CreateAGame(object):
     @staticmethod
     def with_options(size, **options) -> "CreateAGameWithOptions":
         return CreateAGameWithOptions(size=size, options=options)
+
     @staticmethod
     def with_ptn(ptn: str):
         return CreateAGameWithPtn(ptn=ptn)
@@ -18,6 +19,7 @@ class CreateAGameWithOptions:
         super().__init__()
         self.options = options
         self.size = size
+
     def perform_as(self, the_actor: Actor) -> None:
         playTheGame: PlayTheGame = the_actor.ability_to(PlayTheGame)
         playTheGame.from_options(self.size, **self.options)

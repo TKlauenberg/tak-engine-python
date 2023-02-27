@@ -20,15 +20,17 @@ class MoveStones:
         play_the_game: PlayTheGame = the_actor.ability_to(PlayTheGame)
         play_the_game.execute(self.move)
 
+
 class MovingResult(Protocol):
     def dropping_one_stone_on_each_square(self) -> MoveStones:
         pass
+
     def moving_the_complete_stack(self) -> MoveStones:
         pass
 
 
 class Moving(Protocol):
-    def moving(self, direction: Direction)->MovingResult:
+    def moving(self, direction: Direction) -> MovingResult:
         pass
 
 
@@ -36,9 +38,10 @@ class From(Protocol):
     def from_(self, position: str) -> Moving:
         pass
 
+
 def move(amount: int) -> From:
     def _from(position: str) -> Moving:
-        def moving(direction: Direction)->MovingResult:
+        def moving(direction: Direction) -> MovingResult:
             def dropping_one_stone_on_each_square():
                 drops = [1 for x in range(0, amount)]
                 return MoveStones(amount=amount, position=position, direction=direction, drops=drops)

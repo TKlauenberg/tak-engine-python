@@ -1,10 +1,9 @@
-from typing import Union
-
 from screenpy import Actor
 from screenpy.protocols import Answerable
 
 import tak
 from features.steps.screenplay.abilities import PlayTheGame
+
 
 class TheStackOnPosition(Answerable):
     """Get the player with the specific number"""
@@ -12,7 +11,7 @@ class TheStackOnPosition(Answerable):
     def __init__(self, pos: str) -> None:
         self.pos = pos
 
-    def describe():
+    def describe(self):
         """Describe the Question."""
         return f"stack on specific position"
 

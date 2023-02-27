@@ -19,10 +19,10 @@ def i_parse_the_ptn_file(context, actor):
 @then(u'The parsing should be successful')
 def the_parsing_should_be_successful(context):
     the_actor: Actor = context.actor
-    the_actor.should(See.the(GameError, IsEqualTo(None)))
+    the_actor.should(See.the(GameError(), IsEqualTo(None)))
 
 
 @then(u'The parsing should be unsuccessful')
 def the_parsing_should_be_unsuccessful(context):
     the_actor: Actor = context.actor
-    the_actor.should(See.the(GameError, IsNot(IsEqualTo(None))))
+    the_actor.should(See.the(GameError(), IsNot(IsEqualTo(None))))

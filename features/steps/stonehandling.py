@@ -4,11 +4,14 @@ from screenpy.actions import See
 from screenpy.resolutions import IsEqualTo, IsNot
 
 from features.steps.checks import check_stack, check_stone
+from features.steps.screenplay.actions import Place
+from features.steps.screenplay.questions import (GameError, NextPlayer,
+                                                 PlayerOfTopStoneOn,
+                                                 RoundOfTheGame,
+                                                 TheStackOnPosition,
+                                                 TypeOfTopStoneOn)
 from tak import Direction, Game, Move, MoveType, Square
 from tak.stone import StoneType
-
-from features.steps.screenplay.actions import Place
-from features.steps.screenplay.questions.general import GameError
 
 
 @step(u'{actor:w} places a {stonetype:StoneTypeByName} at {position:Position}')
@@ -71,10 +74,9 @@ def the_user_tries_to_move_stones_from_position_direction_with_all_stones(contex
 
 @then(u'On {position:Position} is a {stone:Stone}')
 def on_position_is_a_stone(context, position, stone):
-    game: Game = context.game
-    square: Square = game.board.get_square(position)
-    assert len(square.stones) == 1, "square should only have one stone"
-    check_stone(expected=stone, actual=square.top())
+    the_actor: Actor = context.actor
+    the_actor.should(
+        See.the(TheStackOnPosition(pos=position), IsEqualTo([stone])))
 
 
 @then(u'On {position:Position} should be a stack with a {stone:Stone} and a {stone2:Stone}')
@@ -85,44 +87,41 @@ def on_positioon_should_be_a_stack_with_stones(context, position, stone, stone2)
 @then(u'{actor:w} should get an error')
 def the_user_should_get_an_error(context, actor):
     the_actor: Actor = context.actor
-    the_actor.should(See.the(GameError, IsNot(IsEqualTo(None))))
+    the_actor.should(See.the(GameError(), IsNot(IsEqualTo(None))))
 
 
 @then(u'The error message should be "{text}"')
 def the_error_message_should_be_message(context, text):
     the_actor: Actor = context.actor
-    the_actor.should(See.the(GameError, IsEqualTo(text)))
+    the_actor.should(See.the(GameError(), IsEqualTo(text)))
 
 
-@then(u'On {position:Position} should be a stack with stones "{text}"')
-def on_pos_should_be_a_stack_with_stones(context, position, text):
-    game: Game = context.game
-    square = game.board.get_square(position=position)
-    squareStack = ''.join([str(stone.player.value) for stone in square.stones])
-    assert text == squareStack, f'expected {text} but was {squareStack}'
+@then(u'On {position:Position} should be a stack with stones "{stack:Stack}"')
+def on_pos_should_be_a_stack_with_stones(context, position, stack):
+    the_actor: Actor = context.actor
+    the_actor.should(
+        See.the(TheStackOnPosition(pos=position), IsEqualTo(stack)))
 
 
 @then(u'the top stone on {position:Position} should be {player:PlayerColor}')
 def the_top_stone_on_pos_should_be_color(context, position, player):
-    game: Game = context.game
-    square = game.board.get_square(position=position)
-    assert square.top().player == player
+    the_actor: Actor = context.actor
+    the_actor.should(See.the(PlayerOfTopStoneOn(position), IsEqualTo(player)))
 
 
 @then(u'the top stone on {position:Position} should be of type {stoneType:StoneTypeByChar}')
 def the_top_stone_on_pos_should_be_of_type_stonetype(context, position, stoneType):
-    game: Game = context.game
-    square = game.board.get_square(position=position)
-    assert square.top().type == stoneType
+    the_actor: Actor = context.actor
+    the_actor.should(See.the(TypeOfTopStoneOn(position), IsEqualTo(stoneType)))
 
 
 @then(u'the current Round should be {count:d}')
 def the_current_round_should_be_10(context, count):
-    game: Game = context.game
-    assert game.moveCount == count
+    the_actor: Actor = context.actor
+    the_actor.should(See.the(RoundOfTheGame(), IsEqualTo(count)))
 
 
 @then(u'the next Player should be {player:Player}')
 def the_next_player_should_be_player_2(context, player):
-    game: Game = context.game
-    assert game.currentPlayer.player == player
+    the_actor: Actor = context.actor
+    the_actor.should(See.the(NextPlayer(), IsEqualTo(player)))

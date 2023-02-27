@@ -15,7 +15,7 @@ class PlayerInfoFromNumber(Answerable):
     def __init__(self, player_number) -> None:
         self.number = player_number
 
-    def describe():
+    def describe(self):
         """Describe the Question."""
         return f"player number"
 

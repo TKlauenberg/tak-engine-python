@@ -11,7 +11,7 @@ class TriesToPlace:
     """Interaction for placing stones"""
 
     @classmethod
-    def a(cls, stone_type: StoneType)->On:
+    def a(cls, stone_type: StoneType) -> On:
         def on(position: str):
             return TriesToPlace(stone_type=stone_type, position=position)
         return SimpleNamespace({"on": on})
