@@ -1,14 +1,18 @@
 from behave import then
-from tak import Game
+from screenpy import Actor
+from screenpy.actions import See
+from screenpy.resolutions import IsEqualTo
+
+from screenplay.questions import GameHasEnded, ResultOfTheGame
 
 
 @then(u'the game ends')
 def the_game_ends(context):
-    game: Game = context.game
-    assert game.has_ended(), 'Game should have ended!'
+    the_actor: Actor = context.actor
+    the_actor.should(See.the(GameHasEnded, IsEqualTo(True)))
 
 
 @then(u'the result is "{result}"')
 def the_result_is(context, result):
-    game: Game = context.game
-    assert game.result == result
+    the_actor: Actor = context.actor
+    the_actor.should(See.the(ResultOfTheGame, IsEqualTo(result)))

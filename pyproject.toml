@@ -13,6 +13,7 @@ pylint = "*"
 behave = "*"
 autopep8 = "*"
 pyhamcrest = "*"
+screenpy = "^4.0.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

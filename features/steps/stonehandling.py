@@ -1,23 +1,26 @@
 from behave import given, step, then, when
+from screenpy import Actor
+from screenpy.actions import See
+from screenpy.resolutions import IsEqualTo, IsNot
 
 from features.steps.checks import check_stack, check_stone
 from tak import Direction, Game, Move, MoveType, Square
+from tak.stone import StoneType
+
+from features.steps.screenplay.actions import Place
+from features.steps.screenplay.questions.general import GameError
 
 
 @step(u'{actor:w} places a {stonetype:StoneTypeByName} at {position:Position}')
-def i_place_a_stone_at_position(context, actor, stonetype, position):
-    move = Move(action=MoveType.Place, position=position, stoneType=stonetype)
-    game: Game = context.game
-    game.execute(move)
+def i_place_a_stone_at_position(context, actor: str, stone_type: StoneType, position: str):
+    the_actor: Actor = context.actor
+    the_actor.attempts_to(Place.a(stone_type).on(position))
 
 
 @when(u'{actor:w} tries to place a {stonetype:StoneTypeByName} at {position:Position}')
 def the_user_tries_to_place_a_stone_at_position(context, actor, stonetype, position):
-    move = Move(action=MoveType.Place, position=position, stoneType=stonetype)
-    try:
-        context.game.execute(move)
-    except Exception as e:
-        context.error = e
+    the_actor: Actor = context.actor
+    the_actor.attempts_to(Place.a(stone_type).on(position))
 
 
 @step(u'{actor:w} moves one stone from {position:Position} {direction:Direction}')
@@ -81,12 +84,14 @@ def on_positioon_should_be_a_stack_with_stones(context, position, stone, stone2)
 
 @then(u'{actor:w} should get an error')
 def the_user_should_get_an_error(context, actor):
-    assert context.error != None, 'user should get an error'
+    the_actor: Actor = context.actor
+    the_actor.should(See.the(GameError, IsNot(IsEqualTo(None))))
 
 
 @then(u'The error message should be "{text}"')
 def the_error_message_should_be_message(context, text):
-    assert str(context.error) == text
+    the_actor: Actor = context.actor
+    the_actor.should(See.the(GameError, IsEqualTo(text)))
 
 
 @then(u'On {position:Position} should be a stack with stones "{text}"')
